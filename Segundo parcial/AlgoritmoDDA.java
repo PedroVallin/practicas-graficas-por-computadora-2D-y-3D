@@ -6,6 +6,13 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import java.lang.Math;
 
+/**
+ * BY
+ * PEDRO ALBERTO VALLIN DÍAZ  20310071
+ * PRACTICA 3 SEGUNDO PARCIAL
+ */
+
+
 public class AlgoritmoDDA extends JFrame {
   private final int ANCHO = 400;
   private final int ALTO = 400;

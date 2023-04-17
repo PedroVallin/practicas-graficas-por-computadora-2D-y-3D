@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.Console;
 
 import javax.swing.JFrame;
 import java.lang.Math;
@@ -13,16 +12,17 @@ import java.lang.Math;
 /**
  * BY
  * PEDRO ALBERTO VALLIN DÍAZ  20310071
+ * PRACTICA 1 SEGUNDO PARCIAL
  */
 
-public class Ventana extends JFrame {
+public class LineaRecta extends JFrame {
   private BufferedImage buffer;
   private Graphics2D graPixel;
 
   float[] xValues = new float[101];
   float[] yValues= new float[101];
 
-  public Ventana() {
+  public LineaRecta() {
     super("Mi ventana");
     setSize(200, 200);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -66,7 +66,7 @@ public class Ventana extends JFrame {
   }
 
   public static void main(String[] args) {
-    Ventana ventana = new Ventana();
+    LineaRecta ventana = new LineaRecta();
     ventana.setVisible(true);
   }
 }

@@ -1,11 +1,17 @@
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import java.lang.Math;
+
+/**
+ * BY
+ * PEDRO ALBERTO VALLIN DÍAZ  20310071
+ * PRACTICA 4 SEGUNDO PARCIAL
+ */
+
 
 public class AlgoritmoBresenham extends JFrame {
   private final int ANCHO = 400;
@@ -15,7 +21,6 @@ public class AlgoritmoBresenham extends JFrame {
   private float x2 = 300, y2 = 300;
 
   private BufferedImage buffer;
-  private Graphics2D graPixel;
 
   public AlgoritmoBresenham() {
     super("Algoritmo DDA");
@@ -24,16 +29,15 @@ public class AlgoritmoBresenham extends JFrame {
 
     
     buffer = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
-    graPixel = buffer.createGraphics();
   }
 
   @Override
   public void paint(Graphics g) {
     super.paint(g);
-    drawLineBresenham( x1, y1, x2, y2, Color.BLACK);
+    dibujarLinea( x1, y1, x2, y2, Color.BLACK);
   }
 
-  public void drawLineBresenham(float x0, float y0, float x1, float y1, Color c) {
+  public void dibujarLinea(float x0, float y0, float x1, float y1, Color c) {
     float dx = Math.abs(x1 - x0);
     float dy = Math.abs(y1 - y0);
 
