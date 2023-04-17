@@ -9,7 +9,7 @@ import javax.swing.JFrame;
  * PEDRO ALBERTO VALLIN DÍAZ  20310071
  * PRACTICA 8 SEGUNDO PARCIAL
  * 
- *                   .----.
+ *                .----.
       .---------. | == |
       |.-"""""-.| |----|
       ||       || | == |
