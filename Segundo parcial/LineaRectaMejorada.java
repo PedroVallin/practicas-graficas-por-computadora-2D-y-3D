@@ -11,13 +11,19 @@ import java.lang.Math;
 /**
  * BY
  * PEDRO ALBERTO VALLIN DÍAZ  20310071
- * PRACTICA 1 SEGUNDO PARCIAL
+ * PRACTICA 2 SEGUNDO PARCIAL
  */
 
-public class LineaRecta extends JFrame {
+ /*
+  * Manejo de casos especiales: El algoritmo actual podría fallar si x1 - x0 = 0, es decir, si la línea es vertical. 
+  En este caso, el valor de m sería infinito y se produciría una excepción. Podemos manejar este caso especial 
+  simplemente comprobando si x1 - x0 = 0 y trazando la línea verticalmente en su lugar.
+  */
+
+public class LineaRectaMejorada extends JFrame {
   private BufferedImage buffer;
 
-  public LineaRecta() {
+  public LineaRectaMejorada() {
     super("Mi ventana");
     setSize(200, 200);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -45,15 +51,23 @@ public class LineaRecta extends JFrame {
     m = (y1 - y0)/(x1 - x0);
     b = y0 - m * x0;
 
-    for ( x = x0; x <= x1; x ++ ) {
-      y = m * x + b;
-      putPixel(x, Math.round(y), Color.BLACK);
+    // caso especial: línea vertical
+    if (x1 - x0 == 0) {
+        for (y = y0; y <= y1; y++) {
+            putPixel(x0, y, Color.BLACK);
+        }
+    } else {
+        for ( x = x0; x <= x1; x ++ ) {
+          y = m * x + b;
+          putPixel(x, y, Color.BLACK);
+        }
     }
+
 
   }
 
   public static void main(String[] args) {
-    LineaRecta ventana = new LineaRecta();
+    LineaRectaMejorada ventana = new LineaRectaMejorada();
     ventana.setVisible(true);
   }
 }

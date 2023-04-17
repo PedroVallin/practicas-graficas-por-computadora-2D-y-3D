@@ -1,6 +1,5 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
@@ -21,7 +20,6 @@ public class AlgoritmoDDA extends JFrame {
   private float x2 = 300, y2 = 300;
 
   private BufferedImage buffer;
-  private Graphics2D graPixel;
 
   public AlgoritmoDDA() {
     super("Algoritmo DDA");
@@ -30,7 +28,6 @@ public class AlgoritmoDDA extends JFrame {
 
     
     buffer = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
-    graPixel = buffer.createGraphics();
   }
 
   @Override
