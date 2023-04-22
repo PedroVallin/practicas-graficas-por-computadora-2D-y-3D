@@ -38,7 +38,7 @@ public class LineaRectaMejorada extends JFrame {
   @Override
   public void paint(Graphics g) {
     super.paint(g);
-    dibujarLinea(0, 0, 20, 100);
+    dibujarLinea(20, 0, 20, 100);
   }
 
   public void dibujarLinea(float x0, float y0, float x1, float y1) {
