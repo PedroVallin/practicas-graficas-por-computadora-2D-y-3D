@@ -32,7 +32,7 @@ public class LineaRecta extends JFrame {
   @Override
   public void paint(Graphics g) {
     super.paint(g);
-    dibujarLinea(20, 0, 20, 100);
+    dibujarLinea(0, 0, 200, 200);
   }
 
   public void dibujarLinea(float x0, float y0, float x1, float y1) {
