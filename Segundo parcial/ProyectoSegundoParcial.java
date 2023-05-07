@@ -3,7 +3,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Transparency;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -12,20 +11,23 @@ import javax.swing.JFrame;
 
 public class ProyectoSegundoParcial extends JFrame implements KeyListener{
 
-    private final Color COLOR_GUSANITO = new Color(27, 125, 2);
+    // private final Color COLOR_GUSANITO = new Color(27, 125, 2);
+    private final Color COLOR_GUSANITO = Color.YELLOW;
     private int direccion;
     private int coordCabezaX, 
                 coordCabezaY, 
-                posXLineaPeligrosa = 0,
+                posXLineaPeligrosa,
                 posXObjetivo = 200,
                 posYObjetivo = 200;
 
     private boolean gusanitoVivo;
     private boolean gusanitoEnZonaSegura;
+    private boolean llenarRectangulos;
 
+    // Buffers
     private BufferedImage buffer;
-    Graphics2D g2d;
-    BufferedImage buffer2;
+    private BufferedImage buffer2;
+    private Graphics2D g2d;
 
     
     
@@ -34,10 +36,12 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
         super("El juego del gusanito");
         setSize(400, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        buffer = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
         buffer2 = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         g2d = buffer2.createGraphics();
 
-        buffer = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
         
         addKeyListener(this);
 
@@ -61,12 +65,13 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
         gusanitoVivo = true;
         gusanitoEnZonaSegura = false;
         posXLineaPeligrosa = 0;
+        llenarRectangulos = false;
         direccion = KeyEvent.VK_RIGHT; // Iniciar hacia la derecha
-        // Iniciar loop
+        // Iniciar loop hilo del gusanito
         new Thread(() -> {
             while (gusanitoVivo) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(20);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -75,25 +80,25 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
                 
             }
         }).start();
+
+        // Iniciar loop hilo de la linea peligrosa
+        new Thread(() -> {
+            while (gusanitoVivo) {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                repaint();
+                movimientoLineaPeligrosa();
+                
+            }
+        }).start();
     }
 
-    public void movimiento() {
-        switch (direccion) {
-            case KeyEvent.VK_LEFT:
-                coordCabezaX -= 5;
-                break;
-            case KeyEvent.VK_RIGHT:
-                coordCabezaX += 5;
-                break;
-            case KeyEvent.VK_UP:
-                coordCabezaY -= 5;
-                break;
-            case KeyEvent.VK_DOWN:
-                coordCabezaY += 5;
-                break;
-        }
+    public void movimientoLineaPeligrosa() {
         if ( posXLineaPeligrosa <= 400 ) {
-            posXLineaPeligrosa += 10;
+            posXLineaPeligrosa ++;
         } else {
             posXLineaPeligrosa = 0;
         }
@@ -107,6 +112,34 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
         if (coordCabezaX == posXLineaPeligrosa && !(gusanitoEnZonaSegura)) {
             gusanitoVivo = false;
         }
+
+        // Logica de zona segura
+        if ( ((coordCabezaX < 100 || coordCabezaX > 150) || (coordCabezaY < 100 || coordCabezaY > 150)) 
+            && ((coordCabezaX < 200 || coordCabezaX > 250) || (coordCabezaY < 130 || coordCabezaY > 180))
+            && ((coordCabezaX < 50 || coordCabezaX > 130) || (coordCabezaY < 240 || coordCabezaY > 350))
+            && ((coordCabezaX < 250 || coordCabezaX > 330) || (coordCabezaY < 240 || coordCabezaY > 350)) ) {
+                gusanitoEnZonaSegura = false;
+        } else {
+            gusanitoEnZonaSegura = true;
+        }
+    }
+
+    public void movimiento() {
+        switch (direccion) {
+            case KeyEvent.VK_LEFT:
+                coordCabezaX --;
+                break;
+            case KeyEvent.VK_RIGHT:
+                coordCabezaX ++;
+                break;
+            case KeyEvent.VK_UP:
+                coordCabezaY --;
+                break;
+            case KeyEvent.VK_DOWN:
+                coordCabezaY ++;
+                break;
+        }
+        
 
     }
 
@@ -151,6 +184,12 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
 
         dibujarLinea(g2d, x2, y1, x2, y1 + 11, c);
         dibujarLinea(g2d, x2, y2, x2, y2 - 11, c);
+
+        if (llenarRectangulos) {
+            llenarRectangulo(g2d, x1, y1, x2, (y1 + 10), c);
+            llenarRectangulo(g2d, x1, (y2 - 10), x2, y2, c);
+            llenarRectangulo(g2d, x1, y1, (x1 + 10), y2, c);
+        }
     }
 
 
@@ -209,6 +248,42 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
             }
         }
     }
+
+    public void llenarRectangulo( Graphics2D g2d, int x1, int y1, int x2, int y2, Color c) {
+        
+        int xaux, yaux, xc, yc; // Centro de la figura
+        xaux = (x2 - x1) / 2;
+        yaux = (y2 - y1) / 2;
+
+        xc = x1 + xaux; // Obtener el valor X central de la figura
+        yc = y1 + yaux; // obtener el valor Y central de la figura
+
+        
+        for ( int y = yc; y <= y2; y++ ) { // Recorrer en y
+            for ( int x = xc; x <= x2; x++) {  // Recorrer en x
+                putPixel(g2d, x, y, c);
+            }
+        }
+
+        for ( int y = yc; y >= y1; y-- ) { // Recorrer en y
+            for ( int x = xc; x <= x2; x++) {  // Recorrer en x
+                putPixel(g2d, x, y, c);
+            }
+        }
+
+        for ( int y = yc; y <= y2; y++ ) { // Recorrer en y
+            for ( int x = xc; x >= x1; x--) {  // Recorrer en x
+                putPixel(g2d, x, y, c);
+            }
+        }
+
+        for ( int y = yc; y >= y1; y-- ) { // Recorrer en y
+            for ( int x = xc; x >= x1; x-- ) {  // Recorrer en x
+                putPixel(g2d, x, y, c);
+            }
+        }
+
+    }
     
     
 
@@ -245,7 +320,7 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
         // ------ Objetivos -------
         // Objetivo 1
         dibujarCirculo(g2d, posXObjetivo, posYObjetivo, 10, Color.DARK_GRAY);
-        llenarCirculo(g2d, posXObjetivo, posYObjetivo, 10, Color.DARK_GRAY);
+        llenarCirculo(g2d, posXObjetivo, posYObjetivo, 10, new Color(27, 125, 2));
 
         g.drawImage(buffer2, 0, 0, null);
         g2d.clearRect(0, 0, getWidth(), getHeight());
@@ -290,6 +365,14 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
         if ((key == KeyEvent.VK_SPACE)) {
             System.out.println("Espacio");
             iniciarJuego();
+        }
+
+        if ((key == KeyEvent.VK_R)) {
+            if (!(llenarRectangulos)) {
+                llenarRectangulos = true;
+            } else if (llenarRectangulos) {
+                llenarRectangulos = false;
+            }
         }
       
     }
