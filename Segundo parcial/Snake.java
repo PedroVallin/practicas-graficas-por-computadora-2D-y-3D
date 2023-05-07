@@ -20,8 +20,8 @@ public class Snake extends JPanel implements KeyListener {
     private static final int CELL_SIZE = 10;
     private static final int DELAY = 100;
     private static final Color BACKGROUND_COLOR = Color.BLACK;
-    private static final Color SNAKE_COLOR = Color.GREEN;
-    private static final Color FOOD_COLOR = Color.RED;
+    // private static final Color SNAKE_COLOR = Color.GREEN;
+    // private static final Color FOOD_COLOR = Color.RED;
     private static final int INITIAL_SNAKE_LENGTH = 5;
 
     private List<Point> snake;
