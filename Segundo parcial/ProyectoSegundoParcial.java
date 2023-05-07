@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 import javax.swing.JFrame;
 
 
@@ -17,8 +18,9 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
     private int coordCabezaX, 
                 coordCabezaY, 
                 posXLineaPeligrosa,
-                posXObjetivo = 200,
-                posYObjetivo = 200;
+                posXObjetivo,
+                posYObjetivo,
+                puntuacion;
 
     private boolean gusanitoVivo;
     private boolean gusanitoEnZonaSegura;
@@ -29,19 +31,22 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
     private BufferedImage buffer2;
     private Graphics2D g2d;
 
-    
-    
+    // Numero random para los objetivos
+    Random random = new Random();
+
+
     
     public ProyectoSegundoParcial() {
-        super("El juego del gusanito");
+        super("El juego del gusanito | Puntuación: 0");
         setSize(400, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        
         buffer = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
         buffer2 = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         g2d = buffer2.createGraphics();
-
+        
         
         addKeyListener(this);
 
@@ -62,6 +67,9 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
         // Iniciar variables
         coordCabezaX = 120;
         coordCabezaY = 200;
+        posXObjetivo = 200;
+        posYObjetivo = 200;
+        puntuacion = 0;
         gusanitoVivo = true;
         gusanitoEnZonaSegura = false;
         posXLineaPeligrosa = 0;
@@ -121,6 +129,17 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
                 gusanitoEnZonaSegura = false;
         } else {
             gusanitoEnZonaSegura = true;
+        }
+
+        // Llegar a un objetivo
+        if ( (coordCabezaX <= (posXObjetivo + 10) && coordCabezaX >= (posXObjetivo - 10)) && (coordCabezaY <= (posYObjetivo + 10) && coordCabezaY >= (posYObjetivo - 10)) ) {
+            System.out.println("Objetivo alcanzado");
+            int numeroRandomX = random.nextInt(321) + 30;
+            int numeroRandomY = random.nextInt(321) + 30;
+            posXObjetivo = numeroRandomX;
+            posYObjetivo = numeroRandomY;
+            puntuacion++;
+            this.setTitle("El juego del gusanito | Puntuación: " + puntuacion);
         }
     }
 
@@ -363,7 +382,8 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
         }
 
         if ((key == KeyEvent.VK_SPACE)) {
-            System.out.println("Espacio");
+
+            puntuacion = 0;
             iniciarJuego();
         }
 
