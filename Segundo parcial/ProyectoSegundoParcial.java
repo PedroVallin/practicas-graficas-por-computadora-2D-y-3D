@@ -24,15 +24,21 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
     private boolean gusanitoEnZonaSegura;
 
     private BufferedImage buffer;
+    Graphics2D g2d;
+    BufferedImage buffer2;
+
+    
     
     
     public ProyectoSegundoParcial() {
         super("El juego del gusanito");
         setSize(400, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        buffer2 = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        g2d = buffer2.createGraphics();
 
         buffer = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
-
+        
         addKeyListener(this);
 
         iniciarJuego();
@@ -54,6 +60,7 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
         coordCabezaY = 200;
         gusanitoVivo = true;
         gusanitoEnZonaSegura = false;
+        posXLineaPeligrosa = 0;
         direccion = KeyEvent.VK_RIGHT; // Iniciar hacia la derecha
         // Iniciar loop
         new Thread(() -> {
@@ -63,8 +70,9 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                movimiento();
                 repaint();
+                movimiento();
+                
             }
         }).start();
     }
@@ -207,11 +215,8 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
     @Override
     public void paint(Graphics g) {    
 
-        super.paint(g);
-
-        BufferedImage buffer2 = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = buffer2.createGraphics();
-
+        // super.paint(g);
+        super.repaint();
 
         if ( (direccion == KeyEvent.VK_RIGHT) || (direccion == KeyEvent.VK_LEFT) ) {
             dibujarLinea(g2d, coordCabezaX + 20 , coordCabezaY, coordCabezaX, coordCabezaY, COLOR_GUSANITO);
@@ -243,6 +248,8 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
         llenarCirculo(g2d, posXObjetivo, posYObjetivo, 10, Color.DARK_GRAY);
 
         g.drawImage(buffer2, 0, 0, null);
+        g2d.clearRect(0, 0, getWidth(), getHeight());
+        
 
     }
 
@@ -278,6 +285,11 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
 
         if ((key == KeyEvent.VK_DOWN)) {
             direccion = KeyEvent.VK_DOWN;
+        }
+
+        if ((key == KeyEvent.VK_SPACE)) {
+            System.out.println("Espacio");
+            iniciarJuego();
         }
       
     }
