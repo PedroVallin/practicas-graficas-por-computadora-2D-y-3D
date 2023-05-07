@@ -6,7 +6,11 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 
@@ -34,6 +38,9 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
     // Numero random para los objetivos
     Random random = new Random();
 
+    BufferedImage imagen = null;
+    BufferedImage imagenVertical = null;
+
 
     
     public ProyectoSegundoParcial() {
@@ -41,6 +48,15 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
         setSize(400, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        
+        try {
+            imagen = ImageIO.read(new File("./gusanito.png"));
+            imagenVertical = ImageIO.read(new File("./gusanitoV.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         
         buffer = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
@@ -74,6 +90,7 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
         gusanitoEnZonaSegura = false;
         posXLineaPeligrosa = 0;
         llenarRectangulos = false;
+        this.setTitle("El juego del gusanito | Puntuación: " + puntuacion);
         direccion = KeyEvent.VK_RIGHT; // Iniciar hacia la derecha
         // Iniciar loop hilo del gusanito
         new Thread(() -> {
@@ -113,12 +130,14 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
 
         // Colision con limites de la ventana
         if (coordCabezaX < 0 || coordCabezaX >= 400 || coordCabezaY < 0 || coordCabezaY >= 400) {
-            gusanitoVivo = false;   
+            gusanitoVivo = false;
+            this.setTitle("¡¡Perdiste!! :(");
         }
 
         // Colision con linea peligrosa
         if (coordCabezaX == posXLineaPeligrosa && !(gusanitoEnZonaSegura)) {
             gusanitoVivo = false;
+            this.setTitle("¡¡Perdiste!! :(");
         }
 
         // Logica de zona segura
@@ -313,10 +332,12 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
         super.repaint();
 
         if ( (direccion == KeyEvent.VK_RIGHT) || (direccion == KeyEvent.VK_LEFT) ) {
-            dibujarLinea(g2d, coordCabezaX + 20 , coordCabezaY, coordCabezaX, coordCabezaY, COLOR_GUSANITO);
+            // dibujarLinea(g2d, coordCabezaX + 20 , coordCabezaY, coordCabezaX, coordCabezaY, COLOR_GUSANITO);
+            g2d.drawImage(imagen, coordCabezaX, coordCabezaY, null);
             
         } else if ( (direccion == KeyEvent.VK_UP) || (direccion == KeyEvent.VK_DOWN) ) {
-            dibujarLinea(g2d, coordCabezaX, coordCabezaY + 20, coordCabezaX, coordCabezaY, COLOR_GUSANITO);
+            // dibujarLinea(g2d, coordCabezaX, coordCabezaY + 20, coordCabezaX, coordCabezaY, COLOR_GUSANITO);
+            g2d.drawImage(imagenVertical, coordCabezaX, coordCabezaY, null);
         }
 
   
@@ -382,8 +403,6 @@ public class ProyectoSegundoParcial extends JFrame implements KeyListener{
         }
 
         if ((key == KeyEvent.VK_SPACE)) {
-
-            puntuacion = 0;
             iniciarJuego();
         }
 
