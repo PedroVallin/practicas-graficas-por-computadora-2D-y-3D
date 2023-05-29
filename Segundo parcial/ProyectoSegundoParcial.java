@@ -14,6 +14,33 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 
+/*
+    BY
+    PEDRO ALBERTO VALLIN DÍAZ 20310071
+    PROYECTO DEL SEGUNDO PARCIAL
+
+
+           /^\/^\
+         _|_O_| O|
+\/     /~     \_/ \
+ \____|__________/  \
+        \_______      \
+                `\     \                 \
+                  |     |                  \
+                 /      /                    \
+                /     /                       \\
+              /      /                         \ \
+             /     /                            \  \
+           /     /             _----_            \   \
+          /     /           _-~      ~-_         |   |
+         (      (        _-~    _--_    ~-_     _/   |
+          \      ~-____-~    _-~    ~-_    ~-_-~    /
+            ~-_           _-~          ~-_       _-~
+               ~--______-~                ~-___-~
+
+*/
+
+
 public class ProyectoSegundoParcial extends JFrame implements KeyListener{
 
     // private final Color COLOR_GUSANITO = new Color(27, 125, 2);
