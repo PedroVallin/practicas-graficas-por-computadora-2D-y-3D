@@ -4,28 +4,33 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
-/**
- * BY
- * PEDRO ALBERTO VALLIN DÍAZ  20310071
- * PRACTICA 1 TERCER PARCIAL
- */
-
-public class CuboProyeccionParalela extends JFrame {
+public class RotacionAutomatica extends JFrame {
 
     private BufferedImage buffer;
-    int sizeDelCubo = 50;
-    int cuboPosX = 50;
-    int cuboPosY = 50;
+    private int sizeDelCubo = 50;
+    private int cuboPosX = 200;
+    private int cuboPosY = 200;
+    private double angulo = 0.01;
 
-    public CuboProyeccionParalela() {
+    public RotacionAutomatica() {
         super("Cubo con proyección paralela");
-        setSize(200, 200);
+        setSize(600, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
         buffer = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
-    }
 
+        new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(30);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                angulo += 0.01;
+                repaint();
+            }
+        }).start();
+    }
 
     private void putPixel(Graphics g, double x, double y, Color c) {
         buffer.setRGB(0, 0, c.getRGB());
@@ -36,25 +41,49 @@ public class CuboProyeccionParalela extends JFrame {
     public void paint(Graphics g) {
         super.paint(g);
 
-        
         // Vértices del cubo en 3D
         double[] verticesXCubo = { cuboPosX, cuboPosX + sizeDelCubo, cuboPosX + sizeDelCubo, cuboPosX, cuboPosX, cuboPosX + sizeDelCubo, cuboPosX + sizeDelCubo, cuboPosX };
         double[] verticesYCubo = { cuboPosY, cuboPosY, cuboPosY + sizeDelCubo, cuboPosY + sizeDelCubo, cuboPosY, cuboPosY, cuboPosY + sizeDelCubo, cuboPosY + sizeDelCubo };
         double[] verticesZCubo = { cuboPosY, cuboPosY, cuboPosY, cuboPosY, cuboPosY + sizeDelCubo, cuboPosY + sizeDelCubo, cuboPosY + sizeDelCubo, cuboPosY + sizeDelCubo };
+        
         // Proyección paralela
-        double scaleFactor = 0.5; // Escala de proyección
         double[] verticeX = new double[8];
         double[] verticeY = new double[8];
 
         for (int i = 0; i < 8; i++) {
-            verticeX[i] = verticesXCubo[i] + scaleFactor * verticesZCubo[i];
-            verticeY[i] = verticesYCubo[i] + scaleFactor * verticesZCubo[i];
+            verticeX[i] = verticesXCubo[i] + verticesZCubo[i] / 2;
+            verticeY[i] = verticesYCubo[i] + verticesZCubo[i] / 2;
         }
+
+        // Coordenadas del centro
+        double centroX = 0;
+        double centroY = 0;
+
+        for (int i = 0; i < 8; i++) {
+            centroX += verticeX[i];
+            centroY += verticeY[i];
+        }
+
+        centroX /= 8;
+        centroY /= 8;
+
+        for (int i = 0; i < 8; i++) {
+            double x = verticeX[i];
+            double y = verticeY[i];
+        
+            // Aplicar rotación alrededor del eje vertical (Y)
+            double cos = Math.cos(angulo);
+            double sin = Math.sin(angulo);
+            verticeX[i] = Math.round((x - centroX) * cos - (y - centroY) * sin + centroX);
+            verticeY[i] = Math.round((x - centroX) * sin + (y - centroY) * cos + centroY);
+        }
+        
+
+
+        putPixel(g, 300, 300, Color.BLACK);
 
         dibujarCubo(g, verticeX, verticeY);
     }
-
-    
 
     private void dibujarCubo(Graphics g, double[] verticesX, double[] verticesY) {
         for (int i = 0; i < 4; i++) {
@@ -91,13 +120,9 @@ public class CuboProyeccionParalela extends JFrame {
             }
         }
     }
-    
 
     public static void main(String[] args) {
-
-        CuboProyeccionParalela ventana = new CuboProyeccionParalela();
+        RotacionAutomatica ventana = new RotacionAutomatica();
         ventana.setVisible(true);
-
     }
-
 }

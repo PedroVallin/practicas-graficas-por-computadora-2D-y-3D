@@ -43,6 +43,8 @@ public class CuboProyeccionPerspectiva extends JFrame {
         // Proyección perspectiva
         int puntoFugaX = getWidth() / 2; // Punto de fuga en el eje X
         int puntoFugaY = getHeight() / 2; // Punto de fuga en el eje Y
+        // int puntoFugaX = 30; // Punto de fuga en el eje X
+        // int puntoFugaY = 30; // Punto de fuga en el eje Y
         double[] verticeX = new double[8];
         double[] verticeY = new double[8];
 
