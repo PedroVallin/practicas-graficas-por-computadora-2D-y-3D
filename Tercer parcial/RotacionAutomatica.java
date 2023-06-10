@@ -4,6 +4,13 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
+
+/**
+ * BY
+ * PEDRO ALBERTO VALLIN DÍAZ  20310071
+ * PRACTICA 6 TERCER PARCIAL
+ */
+
 public class RotacionAutomatica extends JFrame {
 
     private BufferedImage buffer;

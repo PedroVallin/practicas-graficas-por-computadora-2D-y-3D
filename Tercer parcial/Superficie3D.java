@@ -69,8 +69,19 @@ public class Superficie3D extends JFrame {
     }
 
     private double f(double x, double y) {
-        // Función para definir la superficie (puedes modificarla)
-        return Math.sin(Math.sqrt(x * x + y * y)) / Math.sqrt(x * x + y * y);
+        
+        // return Math.sin(Math.sqrt(x * x + y * y)) / Math.sqrt(x * x + y * y);
+        
+        // Función para definir el suelo con montañas
+        double amplitude = 1.0;  // Amplitud de las montañas
+        double frequency = 0.1;  // Frecuencia de las montañas
+        double groundLevel = 0.0;  // Nivel del suelo sin montañas
+        
+        // Calcular la altura del suelo con montañas en el punto (x, y)
+        double mountainHeight = amplitude * Math.sin(x * frequency) * Math.cos(y * frequency);
+        
+        // Devolver la altura total del suelo en el punto (x, y)
+        return groundLevel + mountainHeight;
     }
     // private double f(double x, double y) {
     //     // Función para dibujar una esfera

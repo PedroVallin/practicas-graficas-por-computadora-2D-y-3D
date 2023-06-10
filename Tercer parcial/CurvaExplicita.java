@@ -6,6 +6,13 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
+
+/**
+ * BY
+ * PEDRO ALBERTO VALLIN DÍAZ  20310071
+ * PRACTICA 7 TERCER PARCIAL
+ */
+
 public class CurvaExplicita extends JFrame implements KeyListener {
 
     private double anguloX;
