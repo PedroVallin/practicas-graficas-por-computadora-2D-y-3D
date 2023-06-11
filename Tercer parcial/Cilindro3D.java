@@ -1,9 +1,10 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 
-public class Superficie3DTest extends JFrame {
+public class Cilindro3D extends JFrame {
 
     private static final int WIDTH = 800; // Ancho de la ventana
     private static final int HEIGHT = 600; // Alto de la ventana
@@ -12,65 +13,44 @@ public class Superficie3DTest extends JFrame {
 
     private BufferedImage buffer;
 
-    public Superficie3DTest() {
+    // TODO: Doble buffereo
+    private BufferedImage buffer2;
+    private Graphics2D g2d;
+
+    public Cilindro3D() {
         setTitle("Superficie Cilíndrica");
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         buffer = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+
+        // TODO: Doble buffereo
+        buffer2 = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        g2d = buffer2.createGraphics();
     }
 
     private void putPixel(double x, double y, Color c) {
         buffer.setRGB(0, 0, c.getRGB());
-        this.getGraphics().drawImage(buffer, (int) Math.round(x), (int) Math.round(y), this);
+        // this.getGraphics().drawImage(buffer, (int) Math.round(x), (int) Math.round(y), this);
+        g2d.drawImage(buffer, (int) Math.round(x), (int) Math.round(y), this);
     }
 
     @Override
     public void paint(Graphics g) {
-        super.paint(g);
+        // super.paint(g);
+        // TODO: Doble buffereo
+        super.repaint();
 
         drawCylindricalSurface();
+
+        // TODO: Doble buffereo
+        g.drawImage(buffer2, 0, 0, null);
+        g2d.clearRect(0, 0, getWidth(), getHeight());
     }
 
    
 
-    // TODO: ESTE ES EL ULTIMO CÓDIGO BUENO!!!
-    // private void drawCylindricalSurface() {
-    //     int resolution = 100; // Resolución de la discretización
-    //     double tMin = 0.0;
-    //     double tMax = 2 * Math.PI;
-    //     double phiMin = 0.0;
-    //     double phiMax = 2 * Math.PI;
-    //     double dt = (tMax - tMin) / resolution;
-    //     double dPhi = (phiMax - phiMin) / resolution;
     
-    //     for (double t = tMin; t <= tMax; t += dt) {
-    //         for (double phi = phiMin; phi <= phiMax; phi += dPhi) {
-    //             double x = (2 + Math.cos(t)) * Math.cos(phi);
-    //             double y = t;
-    //             double z = (2 + Math.cos(t)) * Math.sin(phi);
-    
-    //             // Realiza las transformaciones de escala, traslación, proyección, etc., si es necesario
-    //             // Por ejemplo, podrías aplicar una traslación y una escala para centrar y ajustar el tamaño de la figura
-    //             double scaleZ = 2; // Factor de escala en el eje z
-    
-    //             // Aplicar proyección perspectiva
-    //             double distance = 10; // Distancia entre el observador y la superficie
-    //             double projectionFactor = distance / (distance + z);
-    
-    //             double xProj = (x * SCALE * projectionFactor) + 200;
-    //             double yProj = (y * SCALE * projectionFactor) + 200;
-    
-    //             // Dibujar el punto (x, y, z)
-    //             putPixel((int) xProj, (int) yProj, Color.BLUE);
-    
-    //             // Si deseas dibujar una superficie sólida, puedes conectar los puntos adyacentes con líneas o triángulos
-    //             // ...
-    //         }
-    //     }
-    // }
-
-
     private void drawCylindricalSurface() {
         int resolution = 100; // Resolución de la discretización
         double tMin = 0.0;
@@ -164,7 +144,7 @@ public class Superficie3DTest extends JFrame {
     
 
     public static void main(String[] args) {
-        Superficie3DTest surface = new Superficie3DTest();
+        Cilindro3D surface = new Cilindro3D();
         surface.setVisible(true);
     }
 }

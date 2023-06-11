@@ -6,6 +6,13 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 
+
+/**
+ * BY
+ * PEDRO ALBERTO VALLIN DÍAZ  20310071
+ * PRACTICA 8 TERCER PARCIAL
+ */
+
 public class SuperficieRotativa extends JFrame implements KeyListener {
 
     private static final int WIDTH = 800; // Ancho de la ventana
@@ -61,142 +68,7 @@ public class SuperficieRotativa extends JFrame implements KeyListener {
         g2d.clearRect(0, 0, getWidth(), getHeight());
     }
 
-    // private void drawRotatedSurface() {
-    //     int resolution = 100; // Resolución de la discretización
-    //     double xMin = -10.0;
-    //     double xMax = 10.0;
-    //     double yMin = -10.0;
-    //     double yMax = 10.0;
-    //     double dx = (xMax - xMin) / resolution;
-    //     double dy = (yMax - yMin) / resolution;
-
-    //     for (double x = xMin; x <= xMax; x += dx) {
-    //         for (double y = yMin; y <= yMax; y += dy) {
-    //             // Realiza las transformaciones de escala, traslación, proyección, etc., si es necesario
-    //             double z = 0; // Altura constante para una superficie plana
-
-    //             // Aplicar rotación sobre el eje z
-    //             double xRot = x * Math.cos(rotationAngle) - y * Math.sin(rotationAngle);
-    //             double yRot = x * Math.sin(rotationAngle) + y * Math.cos(rotationAngle);
-    //             double zRot = z;
-                
-
-    //             // Aplicar proyección perspectiva
-    //             double distance = 10; // Distancia entre el observador y la superficie
-    //             double projectionFactor = distance / (distance + zRot);
-
-    //             double xProj = (xRot * SCALE * projectionFactor) + getWidth() / 2;
-    //             double yProj = (yRot * SCALE * projectionFactor) + getHeight() / 2;
-
-    //             // Dibujar el punto (x, y, z)
-    //             putPixel(xProj, yProj, Color.BLUE);
-
-    //             // Conectar los puntos adyacentes con líneas
-    //             double nextX = x + dx;
-    //             double nextY = y + dy;
-
-    //             if (nextX <= xMax) {
-    //                 double nextZ = 0; // Altura constante para una superficie plana
-
-    //                 // Aplicar rotación sobre el eje z al siguiente punto
-    //                 double nextXRot = nextX * Math.cos(rotationAngle) - y * Math.sin(rotationAngle);
-    //                 double nextYRot = nextX * Math.sin(rotationAngle) + y * Math.cos(rotationAngle);
-    //                 double nextZRot = nextZ;
-
-    //                 // Aplicar proyección perspectiva al siguiente punto
-    //                 double nextXProj = (nextXRot * SCALE * projectionFactor) + getWidth() / 2;
-    //                 double nextYProj = (nextYRot * SCALE * projectionFactor) + getHeight() / 2;
-
-    //                 // Dibujar la línea entre los puntos (x, y, z) y (nextX, nextY, nextZ)
-    //                 drawLine(Math.round(xProj), Math.round(yProj), Math.round(nextXProj), Math.round(nextYProj), Color.BLUE);
-    //             }
-
-    //             if (nextY <= yMax) {
-    //                 double nextZ = 0; // Altura constante para una superficie plana
-
-    //                 // Aplicar rotación sobre el eje z al siguiente punto
-    //                 double nextXRot = x * Math.cos(rotationAngle) - nextY * Math.sin(rotationAngle);
-    //                 double nextYRot = x * Math.sin(rotationAngle) + nextY * Math.cos(rotationAngle);
-    //                 double nextZRot = nextZ;
-
-    //                 // Aplicar proyección perspectiva al siguiente punto
-    //                 double nextXProj = (nextXRot * SCALE * projectionFactor) + getWidth() / 2;
-    //                 double nextYProj = (nextYRot * SCALE * projectionFactor) + getHeight() / 2;
-
-    //                 // Dibujar la línea entre los puntos (x, y, z) y (nextX, nextY, nextZ)
-    //                 drawLine(Math.round(xProj), Math.round(yProj), Math.round(nextXProj), Math.round(nextYProj), Color.BLUE);
-    //             }
-    //         }
-    //     }
-    // }
-
-    //----------------------------------------------
-    // private void drawRotatedSurface() {
-    //     int resolution = 50; // Resolución de la discretización
-    //     double xMin = -2.0;
-    //     double xMax = 2.0;
-    //     double yMin = 0.0;
-    //     double yMax = 6.0;
-        
-    //     double dx = (xMax - xMin) / resolution;
-    //     double dy = (yMax - yMin) / resolution;
-
-    //     for (double x = xMin; x <= xMax; x += dx) {
-    //         for (double y = yMin; y <= yMax; y += dy) {
-    //             double z = Math.sin(x) + Math.sin(y);
-
-    //             // Aplicar rotación sobre el eje x al punto (x, y, z)
-    //             double yRot = y * Math.cos(rotationAngleX) - z * Math.sin(rotationAngleX);
-    //             double zRot = y * Math.sin(rotationAngleX) + z * Math.cos(rotationAngleX);
-
-    //             // Aplicar proyección perspectiva al punto (x, y, z) rotado
-    //             double projectionFactor = 1.0 / (1.0 + zRot);
-    //             double xProj = (x * SCALE * projectionFactor) + getWidth() / 2;
-    //             double yProj = (yRot * SCALE * projectionFactor) + getHeight() / 2;
-
-    //             // Dibujar el punto (x, y, z) rotado y proyectado
-    //             putPixel(xProj, yProj, Color.BLUE);
-
-    //             // Conectar los puntos adyacentes con líneas
-    //             double nextX = x + dx;
-    //             double nextY = y + dy;
-
-    //             if (nextX <= xMax) {
-    //                 double nextZ = Math.sin(nextX) + Math.sin(y);
-
-    //                 // Aplicar rotación sobre el eje x al siguiente punto (nextX, nextY, nextZ)
-    //                 double nextYRot = nextY * Math.cos(rotationAngleX) - nextZ * Math.sin(rotationAngleX);
-    //                 double nextZRot = nextY * Math.sin(rotationAngleX) + nextZ * Math.cos(rotationAngleX);
-
-    //                 // Aplicar proyección perspectiva al siguiente punto (nextX, nextY, nextZ) rotado
-    //                 double nextProjectionFactor = 1.0 / (1.0 + nextZRot);
-    //                 double nextXProj = (nextX * SCALE * nextProjectionFactor) + getWidth() / 2;
-    //                 double nextYProj = (nextYRot * SCALE * nextProjectionFactor) + getHeight() / 2;
-
-    //                 // Dibujar la línea entre los puntos (x, y, z) y (nextX, nextY, nextZ) rotados y proyectados
-    //                 drawLine(Math.round(xProj), Math.round(yProj), Math.round(nextXProj), Math.round(nextYProj), Color.BLUE);
-    //             }
-
-    //             if (nextY <= yMax) {
-    //                 double nextZ = Math.sin(x) + Math.sin(nextY);
-
-    //                 // Aplicar rotación sobre el eje x al siguiente punto (nextX, nextY, nextZ)
-    //                 double nextYRot = nextY * Math.cos(rotationAngleX) - nextZ * Math.sin(rotationAngleX);
-    //                 double nextZRot = nextY * Math.sin(rotationAngleX) + nextZ * Math.cos(rotationAngleX);
-
-    //                 // Aplicar proyección perspectiva al siguiente punto (nextX, nextY, nextZ) rotado
-    //                 double nextProjectionFactor = 1.0 / (1.0 + nextZRot);
-    //                 double nextXProj = (x * SCALE * nextProjectionFactor) + getWidth() / 2;
-    //                 double nextYProj = (nextYRot * SCALE * nextProjectionFactor) + getHeight() / 2;
-
-    //                 // Dibujar la línea entre los puntos (x, y, z) y (nextX, nextY, nextZ) rotados y proyectados
-    //                 drawLine(Math.round(xProj), Math.round(yProj), Math.round(nextXProj), Math.round(nextYProj), Color.BLUE);
-    //             }
-    //         }
-    //     }
-    // }
-
-
+    
 
     private void drawRotatedSurface() {
         int resolution = 100; // Resolución de la discretización
